@@ -9,6 +9,30 @@
   </form>
 {% endblock %}
 
+{% block content %}
+  {% if stats %}
+    <h2>Top Projects (by download count)</h2>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Spidered Links</th>
+          <th>External Only Versions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stat in stats %}
+          <tr>
+            <td><a href="/{{ stat.package }}/">{{ stat.package }}</a></td>
+            <td>{{ stat.per_url|length }}</td>
+            <td>{{ stat.external_only|length }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}
+
 
 {% block extra_js %}
   <script>

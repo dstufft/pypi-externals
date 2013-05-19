@@ -1,6 +1,7 @@
 import itertools
 import urlparse
 import os
+import json
 
 from flask import Flask
 from flask import abort
@@ -9,6 +10,7 @@ from flask import render_template
 from flask.ext.cache import Cache
 
 import html5lib
+import redis
 import requests
 
 from pkg_resources import safe_name
@@ -24,6 +26,11 @@ if "REDIS_URL" in os.environ:
 else:
     cache_config["CACHE_TYPE"] = "simple"
 cache = Cache(app, config=cache_config)
+
+if "REDIS_URL" in os.environ:
+    datastore = redis.Redis.from_url(os.environ["REDIS_URL"])
+else:
+    datastore = None
 
 
 def installable(project, url):
@@ -133,7 +140,12 @@ def process_package(package, sabort=False):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    stats = []
+    if datastore is not None:
+        encoded = datastore.get("stats")
+        if encoded:
+            stats = json.loads(encoded)
+    return render_template("index.html", stats=stats)
 
 
 @app.route("/<package>/")
