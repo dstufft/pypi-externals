@@ -9,6 +9,7 @@
       <tr>
         <th>Spidered URL</th>
         <th># Installation Candidates</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
         <tr>
           <td>{{ url }}</td>
           <td>{{ candidates|length }}</td>
+          <td>{% if candidates %}<a href="#{{ hashed[url] }}" data-toggle="modal">View Candidates</a>{% endif %}</td>
         </tr>
       {% endfor %}
     </tbody>
@@ -34,4 +36,22 @@
       {% endfor %}
     </table>
   {% endif %}
+
+  {% for url, candidates in per_url.iteritems() %}
+    {% if candidates %}
+      <div id="{{ hashed[url] }}" class="modal hide fade">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3>Installation candidates from {{ url }}</h3>
+        </div>
+        <div class="modal-body">
+          <ul>
+            {% for c in candidates %}
+              <li><a href="{{ c[1] }}">{{ c[1] }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
 {% endblock %}

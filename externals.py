@@ -15,6 +15,7 @@ import itertools
 import urlparse
 import os
 import json
+import hashlib
 
 from flask import Flask
 from flask import abort
@@ -166,8 +167,10 @@ def index():
 @app.route("/<package>/")
 @cache.cached(timeout=50)
 def show_package(package):
-    return render_template("detail.html",
-                                    **process_package(package, sabort=True))
+    data = process_package(package, sabort=True)
+    hashed = {k: hashlib.md5(k).hexdigest() for k in data["per_url"]}
+    data["hashed"] = hashed
+    return render_template("detail.html", **data)
 
 
 @app.route("/internal/package_redirect/")
