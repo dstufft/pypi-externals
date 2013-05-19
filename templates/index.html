@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <form id="search">
+    <div class="input-append">
+      <input  class="input-xxlarge" type="text" id="package-find" placeholder="Type the name of a package...">
+      <button class="btn" type="button">Go!</button>
+    </div>
+  </form>
+{% endblock %}
+
+
+{% block extra_js %}
+  <script>
+    $('#search .btn').click(function(){
+       document.location.href='/' + $("#package-find").val() + '/';
+    });
+  </script>
+{% endblock %}

@@ -53,8 +53,8 @@ def process_page(html, package, url):
 
 
 @app.route("/")
-def top_stats():
-    return "Coming Soon"
+def index():
+    return render_template("index.html")
 
 
 @app.route("/<package>/")
