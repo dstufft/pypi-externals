@@ -12,6 +12,7 @@
 {% block content %}
   {% if stats %}
     <h2>Top "Slow Installation" Projects <a href="#" data-toggle="tooltip" title="&quot;Slow&quot; means extra urls besides PyPI must be scraped to install"><i class="icon-question-sign"></i></a></h2>
+    <p class="muted">Updated every 10 minutes, last updated at {{ last_updated }} UTC</p>
     <table class="table table-bordered table-hover">
       <thead>
         <tr>

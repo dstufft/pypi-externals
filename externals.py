@@ -159,9 +159,11 @@ def index():
     stats = []
     if datastore is not None:
         encoded = datastore.get("stats")
+        last_updated = datastore.get("stats.update")
         if encoded:
             stats = json.loads(encoded)
-    return render_template("index.html", stats=stats)
+    return render_template("index.html",
+                                stats=stats, last_updated=last_updated)
 
 
 @app.route("/<package>/")

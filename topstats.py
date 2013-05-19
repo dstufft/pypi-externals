@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import datetime
 import os
 import json
 import xmlrpclib
@@ -27,6 +28,8 @@ data = []
 
 xmlrpc = xmlrpclib.ServerProxy("https://pypi.python.org/pypi")
 packages = xmlrpc.top_packages()
+
+current_time = datetime.datetime.utcnow()
 
 for package, _ in packages:
     print("Processing %s" % package)
@@ -54,3 +57,4 @@ for package, _ in packages:
 # Stick Our data into redis
 r = redis.Redis.from_url(os.environ.get("REDIS_URL", "redis://localhost"))
 r.set("stats", json.dumps(data))
+r.set("stats.update", current_time.replace(microsecond=0).isoformat())
