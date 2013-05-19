@@ -12,8 +12,9 @@
 
 {% block extra_js %}
   <script>
-    $('#search .btn').click(function(){
+    $('#search').submit(function(){
        document.location.href='/' + $("#package-find").val() + '/';
+       return false;
     });
   </script>
 {% endblock %}
