@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block header %}
-  <form id="search">
+  <form action="/internal/package_redirect/" method="GET" id="search">
     <div class="input-append">
-      <input  class="input-xxlarge" type="text" id="package-find" placeholder="Type the name of a package...">
-      <button class="btn" type="button">Go!</button>
+      <input name="package" class="input-xxlarge" type="text" placeholder="Type the name of a package...">
+      <button class="btn" type="submit">Go!</button>
     </div>
   </form>
 {% endblock %}
@@ -31,14 +31,4 @@
       </tbody>
     </table>
   {% endif %}
-{% endblock %}
-
-
-{% block extra_js %}
-  <script>
-    $('#search').submit(function(){
-       document.location.href='/' + $("#package-find").val() + '/';
-       return false;
-    });
-  </script>
 {% endblock %}

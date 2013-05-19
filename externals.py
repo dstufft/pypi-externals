@@ -18,7 +18,9 @@ import json
 
 from flask import Flask
 from flask import abort
+from flask import redirect
 from flask import render_template
+from flask import request
 
 from flask.ext.cache import Cache
 
@@ -166,6 +168,14 @@ def index():
 def show_package(package):
     return render_template("detail.html",
                                     **process_package(package, sabort=True))
+
+
+@app.route("/internal/package_redirect/")
+def redirect_package():
+    package = request.args.get("package")
+    if package is None:
+        return redirect("/")
+    return redirect("/%s/" % package)
 
 
 if __name__ == "__main__":
