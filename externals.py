@@ -158,6 +158,7 @@ def process_package(package, sabort=False):
 @app.route("/")
 def index():
     stats = []
+    last_updated = "Not Available"
     if datastore is not None:
         encoded = datastore.get("stats")
         last_updated = datastore.get("stats.update")
