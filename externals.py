@@ -52,14 +52,7 @@ def process_page(html, package, url):
     return installable_
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/<package>/")
-@cache.cached(timeout=50)
-def show_package(package):
+def process_package(package, sabort=False):
     session = requests.session()
     session.verify = False
 
@@ -67,7 +60,10 @@ def show_package(package):
     url = "https://pypi.python.org/simple/%s/" % package
     resp = session.get(url)
     if resp.status_code == 404:
-        abort(404)
+        if sabort:
+            abort(404)
+        else:
+            return
     resp.raise_for_status()
 
     html = html5lib.parse(resp.content, namespaceHTMLElements=False)
@@ -132,10 +128,19 @@ def show_package(package):
     if temp:
         external_only.append(temp)
 
+    return dict(package=package, per_url=per_url, external_only=external_only)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/<package>/")
+@cache.cached(timeout=50)
+def show_package(package):
     return render_template("detail.html",
-                package=package, per_url=per_url,
-                external_only=external_only,
-            )
+                                    **process_package(package, sabort=True))
 
 
 if __name__ == "__main__":
