@@ -178,5 +178,10 @@ def redirect_package():
     return redirect("/%s/" % package)
 
 
+@app.route("/help/what/")
+def help_what():
+    return render_template("help/what.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

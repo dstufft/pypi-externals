@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block header %}<h1>What Should I Do?</h1>{% endblock %}
+
+
+{% block content %}
+  <ol>
+    <li>Log into PyPI</li>
+    <li>Navigate to each of your packages (e.g. http://pypi.python.org/pypi/your-package)</li>
+    <li>
+        <p>Use the "urls" link at the top of the page</p>
+        <p><img class="img-polaroid" src="http://d.stufft.io/image/0F010f1C1d1e/Image%202013.05.19%209%3A42%3A19%20AM.png" /></p>
+    </li>
+    <li>
+        <p>Change your Hosting Mode, you Probably want the first option</p>
+        <p><img class="img-polaroid" src="http://d.stufft.io/image/3m1S2W3k182w/Image%202013.05.19%209%3A44%3A41%20AM.png" /></p>
+    </li>
+    <li>
+        <p>
+            Remove any urls that you don't want pip or easy_install to try and install.
+            Files uploaded to PyPI will always be available for install
+        </p>
+        <p><img class="img-polaroid" src="http://d.stufft.io/image/2B331Y1V0y1m/Image%202013.05.19%209%3A50%3A30%20AM.png" /></p>
+    </li>
+    <li>Rejoice in speedier installs!</li>
+  </ol>
+
+  <hr>
+
+  <h2>What Does All this Mean?</h2>
+  <p>
+    When pip or easy_install attempt to install a package they go to a special
+    page on PyPI called the simple index (e.g. https://pypi.python.org/simple/apathy/).
+  </p>
+  <p>
+    Once they go to the simple index for the desired package they read the links
+    on that page. Any link with <code>rel="homepage"</code> or <code>rel="download"</code>
+    on this simple index will also be visited.
+  </p>
+  <p>
+    Once they have the contents of the simple index, and the contents of all the
+    homepage and download links they process those contents looking for links that
+    look like they are to installable files.
+  </p>
+  <p>
+    The rules for what is an installable file are pretty arcane, but generally
+    it is any url that looks like it's a download for a format the installer
+    supports (e.g. http://example.com/apathy-1.0.tar.gz).
+  </p>
+  <p>
+    Once it's found all the installable urls, it picks the best version it's found
+    that matches what you've told it to install, downloads it, and installs it.
+  </p>
+  <p>
+    Obviously scraping all of those homepage and download pages for external urls
+    can take quite a long time. When selecting your Hosting Mode the first and
+    second option tell PyPI to change the rel attributes to <code>ext-homepage</code>
+    and <code>ext-download</code> which pip and easy_install will not scrape. This
+    offers a pretty massive speedup in many cases.
+  </p>
+  <p>
+    Whenever you upload a package to PyPI it processes the <code>long_description</code>
+    or <code>README(.rst)</code> file and attempts to find urls. Any url it finds
+    it will list on the packages simple index and if those urls look installable
+    then installers will attempt to install them.
+  </p>
+  <p>
+    The first Hosting Mode tells PyPI to no longer scan and automatically add
+    urls to the simple index and to instead only list urls that you have explicitly
+    told it too (and the uploaded files are always listed).
+  </p>
+  <p>
+    The list of urls (if you have any) will contain all of the links that PyPI
+    has scanned and extracted from your <code>long_description</code> and
+    <code>README(.rst)</code> over time.
+  </p>
+
+{% endblock %}
