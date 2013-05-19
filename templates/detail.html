@@ -1,28 +1,37 @@
-<h1>Results for {{ package }}</h1>
+{% extends "base.html" %}
 
-<h2>Spidered Links ({{ per_url|length }})</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Spidered URL</th>
-      <th># Installation Candidates</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for url, candidates in per_url.iteritems() %}
+{% block title %}{{ package }}{% endblock %}
+
+{% block content %}
+  <h2>Spidered Links ({{ per_url|length }})</h2>
+  <table class="table table-bordered table-hover">
+    <thead>
       <tr>
-        <td>{{ url }}</td>
-        <td>{{ candidates|length }}</td>
+        <th>Spidered URL</th>
+        <th># Installation Candidates</th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for url, candidates in per_url.iteritems() %}
+        <tr>
+          <td>{{ url }}</td>
+          <td>{{ candidates|length }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-{% if external_only %}
-  <h2>Only Available Externally ({{ external_only|length }})</h2>
-  <ul>
-    {% for version in external_only %}
-      <li>{{ version }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+  {% if external_only %}
+    <h2>Only Available Externally ({{ external_only|length }})</h2>
+    <table class="table table-hover">
+      {% for v in external_only %}
+        <tr>
+          <td>{% if v[0] %}{{ v[0] }}{% endif %}</td>
+          <td>{% if v[1] %}{{ v[1] }}{% endif %}</td>
+          <td>{% if v[2] %}{{ v[2] }}{% endif %}</td>
+          <td>{% if v[3] %}{{ v[3] }}{% endif %}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+{% endblock %}

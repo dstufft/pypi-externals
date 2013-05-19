@@ -106,9 +106,23 @@ def show_package(package):
         else:
             external.add(version)
 
+    external_only = []
+    count = 0
+    temp = []
+    for v in (external - internal):
+        if count < 4:
+            temp.append(v)
+            count += 1
+        if count >= 4:
+            external_only.append(temp)
+            temp = []
+            count = 0
+    if temp:
+        external_only.append(temp)
+
     return render_template("detail.html",
                 package=package, per_url=per_url,
-                external_only=(external - internal),
+                external_only=external_only,
             )
 
 
