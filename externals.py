@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import collections
 import itertools
 import urlparse
 import os
@@ -93,7 +94,7 @@ def process_package(package, sabort=False):
 
     spider = set()
     installable_ = set()
-    per_url = {}
+    per_url = collections.OrderedDict()
 
     for link in itertools.chain(
                         html.findall(".//a[@rel='download']"),
