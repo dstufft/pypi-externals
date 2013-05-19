@@ -1,1 +1,1 @@
-web: gunicorn external:app -k gevent -w 3
+web: gunicorn externals:app -k gevent -w 3
