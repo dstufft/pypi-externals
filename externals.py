@@ -1,9 +1,12 @@
 import itertools
 import urlparse
+import os
 
 from flask import Flask
 from flask import abort
 from flask import render_template
+
+from flask.ext.cache import Cache
 
 import html5lib
 import requests
@@ -13,6 +16,14 @@ from setuptools.package_index import distros_for_url
 
 
 app = Flask(__name__)
+
+cache_config = {}
+if "REDIS_URL" in os.environ:
+    cache_config["CACHE_TYPE"] = "redis"
+    cache_config["CACHE_REDIS_URL"] = os.environ["REDIS_URL"]
+else:
+    cache_config["CACHE_TYPE"] = "simple"
+cache = Cache(app, config=cache_config)
 
 
 def installable(project, url):
@@ -47,6 +58,7 @@ def top_stats():
 
 
 @app.route("/<package>/")
+@cache.cached(timeout=50)
 def show_package(package):
     session = requests.session()
     session.verify = False
