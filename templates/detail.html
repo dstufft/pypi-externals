@@ -1,0 +1,28 @@
+<h1>Results for {{ package }}</h1>
+
+<h2>Spidered Links ({{ per_url|length }})</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Spidered URL</th>
+      <th># Installation Candidates</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for url, candidates in per_url.iteritems() %}
+      <tr>
+        <td>{{ url }}</td>
+        <td>{{ candidates|length }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if external_only %}
+  <h2>Only Available Externally ({{ external_only|length }})</h2>
+  <ul>
+    {% for version in external_only %}
+      <li>{{ version }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
