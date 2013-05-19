@@ -42,8 +42,8 @@ def process_page(html, package, url):
 
 
 @app.route("/")
-def hello_world():
-    return "Hello World!"
+def top_stats():
+    return "Coming Soon"
 
 
 @app.route("/<package>/")
