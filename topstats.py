@@ -31,7 +31,11 @@ packages = xmlrpc.top_packages()
 
 for package, _ in packages:
     print("Processing %s" % package)
-    processed = externals.process_package(package, sabort=False)
+    try:
+        processed = externals.process_package(package, sabort=False)
+    except Exception:
+        print("Skipping %s because it raised an exception")
+        continue
 
     # Simple Guard against missing packages
     if processed is None:
