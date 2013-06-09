@@ -152,7 +152,10 @@ def process_package(package, sabort=False):
     if temp:
         external_only.append(temp)
 
-    return dict(package=package, per_url=per_url, external_only=external_only)
+    return dict(
+                package=package, per_url=per_url, external_only=external_only,
+                num_external_only=len(external - internal),
+            )
 
 
 @app.route("/")
