@@ -33,8 +33,9 @@ for package, _ in packages:
     print("Processing %s" % package)
     try:
         processed = externals.process_package(package, sabort=False)
-    except Exception:
-        print("Skipping %s because it raised an exception")
+    except Exception as exc:
+        print(exc)
+        print("Skipping %s because it raised an exception" % package)
         continue
 
     # Simple Guard against missing packages
