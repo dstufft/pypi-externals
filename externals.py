@@ -90,7 +90,7 @@ def process_package(package, sabort=False):
             return
     resp.raise_for_status()
 
-    html = html5lib.parse(resp.content, namespaceHTMLElements=False)
+    html = html5lib.parse(resp.content, namespaceHTMLElements=False, treebuilder="lxml")
 
     spider = set()
     installable_ = set()
