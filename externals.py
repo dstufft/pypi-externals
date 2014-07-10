@@ -175,7 +175,7 @@ def index():
 @cache.cached(timeout=50)
 def show_package(package):
     data = process_package(package, sabort=True)
-    hashed = {k: hashlib.md5(k).hexdigest() for k in data["per_url"]}
+    hashed = dict((k, hashlib.md5(k).hexdigest()) for k in data["per_url"])
     data["hashed"] = hashed
     return render_template("detail.html", **data)
 
